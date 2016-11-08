@@ -3,7 +3,7 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { uniq } from 'lodash';
+import { uniqBy } from 'lodash';
 
 /**
  * Internal dependencies
@@ -20,9 +20,9 @@ class EditorSharingPublicizeServices extends Component {
 	};
 
 	renderServices() {
-		const services = uniq( this.props.connections.map( ( connection ) => ( {
-			ID: connection.service,
-			label: connection.label,
+		const services = uniqBy( this.props.connections.map( ( { label, service } ) => ( {
+			ID: service,
+			label,
 		} ) ), 'ID' );
 
 		return services.map( ( service ) =>

@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { map, includes, uniq } from 'lodash';
+import { map, includes, uniqBy } from 'lodash';
 
 /**
  * Internal dependencies
@@ -48,9 +48,9 @@ const EditorSharingAccordion = React.createClass( {
 		const targeted = connections.filter( ( connection ) => {
 			return ! includes( skipped, connection.keyring_connection_ID );
 		} );
-		const targetedServices = uniq( targeted.map( ( connection ) => ( {
-			ID: connection.service,
-			label: connection.label,
+		const targetedServices = uniqBy( targeted.map( ( { label, service } ) => ( {
+			ID: service,
+			label,
 		} ) ), 'ID' );
 
 		return map( targetedServices, 'label' ).join( ', ' );
