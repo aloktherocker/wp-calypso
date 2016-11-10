@@ -132,13 +132,13 @@ class SharingService extends Component {
 				popupMonitor.once( 'close', () => {
 					// When the user has finished authorizing the connection
 					// (or otherwise closed the window), force a refresh
-					this.props.requestKeyringConnections();
-
-					// In the case that a Keyring connection doesn't exist, wait for app
-					// authorization to occur, then display with the available connections
-					if ( this.didKeyringConnectionSucceed( service.ID, this.props.siteId ) && 'publicize' === service.type ) {
-						this.setState( { isSelectingAccount: true } );
-					}
+					this.props.requestKeyringConnections( ()=> {
+						// In the case that a Keyring connection doesn't exist, wait for app
+						// authorization to occur, then display with the available connections
+						if ( this.didKeyringConnectionSucceed( service.ID, this.props.siteId ) && 'publicize' === service.type ) {
+							this.setState( { isSelectingAccount: true } );
+						}
+					} );
 				} );
 			}
 		} else {
